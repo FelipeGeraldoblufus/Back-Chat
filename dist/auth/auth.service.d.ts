@@ -15,4 +15,5 @@ export declare class AuthService {
         number: string;
     }>;
     register({ name, email, number, password }: RegisterDto): Promise<import("../User/dto/create-user.dto").CreateUserDto & Usuario>;
+    validateToken(token: string): Promise<any>;
 }

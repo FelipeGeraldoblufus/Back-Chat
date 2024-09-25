@@ -38,7 +38,7 @@ let AuthService = class AuthService {
             token,
             email: user.email,
             name: user.name,
-            number: user.number
+            number: user.number,
         };
     }
     async register({ name, email, number, password }) {
@@ -51,8 +51,18 @@ let AuthService = class AuthService {
             name,
             email,
             number,
-            password: hashedPassword
+            password: hashedPassword,
         });
+    }
+    async validateToken(token) {
+        try {
+            const decoded = this.jwtService.verify(token);
+            return decoded;
+        }
+        catch (error) {
+            console.error('Error al validar el token:', error);
+            return null;
+        }
     }
 };
 exports.AuthService = AuthService;
