@@ -11,14 +11,15 @@ import {
 import { Server, Socket } from 'socket.io';
 import { AuthService } from '../../auth/auth.service';
 
-@WebSocketGateway(3002,{
+@WebSocketGateway(3001,{
   cors: {
     origin: '*', // Permitir conexiones de cualquier origen
   },
   transports: ['websocket'],  // Forzar el uso de websockets
 })
-export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
-  @WebSocketServer() server: Server;
+export class ChatGatewaySala1 implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+  @WebSocketServer() 
+  server: Server;
   private connectedUsers = new Map<string, string>();
 
   constructor(private readonly authService: AuthService) {}

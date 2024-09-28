@@ -12,11 +12,11 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChatGateway = void 0;
+exports.ChatGatewaySala2 = void 0;
 const websockets_1 = require("@nestjs/websockets");
 const socket_io_1 = require("socket.io");
 const auth_service_1 = require("../../auth/auth.service");
-let ChatGateway = class ChatGateway {
+let ChatGatewaySala2 = class ChatGatewaySala2 {
     constructor(authService) {
         this.authService = authService;
         this.connectedUsers = new Map();
@@ -74,23 +74,23 @@ let ChatGateway = class ChatGateway {
         return user;
     }
 };
-exports.ChatGateway = ChatGateway;
+exports.ChatGatewaySala2 = ChatGatewaySala2;
 __decorate([
     (0, websockets_1.WebSocketServer)(),
     __metadata("design:type", socket_io_1.Server)
-], ChatGateway.prototype, "server", void 0);
+], ChatGatewaySala2.prototype, "server", void 0);
 __decorate([
     __param(0, (0, websockets_1.ConnectedSocket)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [socket_io_1.Socket]),
     __metadata("design:returntype", Promise)
-], ChatGateway.prototype, "handleConnection", null);
+], ChatGatewaySala2.prototype, "handleConnection", null);
 __decorate([
     __param(0, (0, websockets_1.ConnectedSocket)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [socket_io_1.Socket]),
     __metadata("design:returntype", void 0)
-], ChatGateway.prototype, "handleDisconnect", null);
+], ChatGatewaySala2.prototype, "handleDisconnect", null);
 __decorate([
     (0, websockets_1.SubscribeMessage)('sendMessage'),
     __param(0, (0, websockets_1.MessageBody)()),
@@ -98,8 +98,8 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, socket_io_1.Socket]),
     __metadata("design:returntype", void 0)
-], ChatGateway.prototype, "handleMessage", null);
-exports.ChatGateway = ChatGateway = __decorate([
+], ChatGatewaySala2.prototype, "handleMessage", null);
+exports.ChatGatewaySala2 = ChatGatewaySala2 = __decorate([
     (0, websockets_1.WebSocketGateway)(3002, {
         cors: {
             origin: '*',
@@ -107,5 +107,5 @@ exports.ChatGateway = ChatGateway = __decorate([
         transports: ['websocket'],
     }),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
-], ChatGateway);
-//# sourceMappingURL=chat.gateway.js.map
+], ChatGatewaySala2);
+//# sourceMappingURL=chat.gateway.sala2.js.map
