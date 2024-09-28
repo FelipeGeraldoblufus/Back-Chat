@@ -52,12 +52,18 @@ export class ChatGatewaySala1 implements OnGatewayInit, OnGatewayConnection, OnG
     }
   }
 
+  @SubscribeMessage('joinRoom')
+  joinRoom(@MessageBody() room: string, @ConnectedSocket() client: Socket) {
+    client.join(room);
+    console.log(`Usuario ${this.connectedUsers.get(client.id)} se unió a la sala: ${room}`);
+  }
+
   @SubscribeMessage('sendMessage')
-  handleMessage(@MessageBody() message: string, @ConnectedSocket() client: Socket) {
+  handleMessage(@MessageBody() data: { room: string, message: string }, @ConnectedSocket() client: Socket) {
     const userName = this.connectedUsers.get(client.id);
     if (userName) {
-      console.log(`Mensaje recibido de ${userName}: ${message}`);
-      this.server.emit('message', { userName, message });
+      console.log(`Mensaje recibido de ${userName} en sala ${data.room}: ${data.message}`);
+      this.server.to(data.room).emit('message', { userName, message: data.message });
     } else {
       client.emit('error', { message: 'Usuario no autenticado.' });
     }

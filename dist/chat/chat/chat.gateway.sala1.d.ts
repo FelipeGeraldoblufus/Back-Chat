@@ -9,7 +9,11 @@ export declare class ChatGatewaySala1 implements OnGatewayInit, OnGatewayConnect
     afterInit(server: Server): void;
     handleConnection(client: Socket): Promise<void>;
     handleDisconnect(client: Socket): void;
-    handleMessage(message: string, client: Socket): void;
+    joinRoom(room: string, client: Socket): void;
+    handleMessage(data: {
+        room: string;
+        message: string;
+    }, client: Socket): void;
     private getTokenFromHeaders;
     private validateToken;
 }
