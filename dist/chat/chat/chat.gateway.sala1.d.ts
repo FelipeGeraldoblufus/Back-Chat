@@ -14,6 +14,7 @@ export declare class ChatGatewaySala1 implements OnGatewayInit, OnGatewayConnect
         room: string;
         message: string;
     }, client: Socket): void;
+    leaveRoom(room: string, client: Socket): void;
     private getTokenFromHeaders;
     private validateToken;
 }

@@ -55,7 +55,9 @@ export class ChatGatewaySala1 implements OnGatewayInit, OnGatewayConnection, OnG
   @SubscribeMessage('joinRoom')
   joinRoom(@MessageBody() room: string, @ConnectedSocket() client: Socket) {
     client.join(room);
+    const userName = this.connectedUsers.get(client.id);
     console.log(`Usuario ${this.connectedUsers.get(client.id)} se unió a la sala: ${room}`);
+    this.server.to(room).emit('user', { userName, message: `${userName} se ha unido a la sala. `});
   }
 
   @SubscribeMessage('sendMessage')
@@ -67,6 +69,15 @@ export class ChatGatewaySala1 implements OnGatewayInit, OnGatewayConnection, OnG
     } else {
       client.emit('error', { message: 'Usuario no autenticado.' });
     }
+  }
+
+  @SubscribeMessage('leaveRoom')  // Método para salir de una sala
+  leaveRoom(@MessageBody() room: string, @ConnectedSocket() client: Socket) {
+    client.leave(room);
+    const userName = this.connectedUsers.get(client.id);
+    console.log(`Usuario ${userName} salió de la sala: ${room}`);
+    this.server.to(room).emit('user', { userName, message: `${userName} ha salido de la sala. `});
+    
   }
 
   private getTokenFromHeaders(headers: any): string | undefined {

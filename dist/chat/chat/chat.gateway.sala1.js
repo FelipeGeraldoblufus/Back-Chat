@@ -48,7 +48,9 @@ let ChatGatewaySala1 = class ChatGatewaySala1 {
     }
     joinRoom(room, client) {
         client.join(room);
+        const userName = this.connectedUsers.get(client.id);
         console.log(`Usuario ${this.connectedUsers.get(client.id)} se unió a la sala: ${room}`);
+        this.server.to(room).emit('user', { userName, message: `${userName} se ha unido a la sala. ` });
     }
     handleMessage(data, client) {
         const userName = this.connectedUsers.get(client.id);
@@ -59,6 +61,12 @@ let ChatGatewaySala1 = class ChatGatewaySala1 {
         else {
             client.emit('error', { message: 'Usuario no autenticado.' });
         }
+    }
+    leaveRoom(room, client) {
+        client.leave(room);
+        const userName = this.connectedUsers.get(client.id);
+        console.log(`Usuario ${userName} salió de la sala: ${room}`);
+        this.server.to(room).emit('user', { userName, message: `${userName} ha salido de la sala. ` });
     }
     getTokenFromHeaders(headers) {
         return headers.authorization?.split(' ')[1];
@@ -111,6 +119,14 @@ __decorate([
     __metadata("design:paramtypes", [Object, socket_io_1.Socket]),
     __metadata("design:returntype", void 0)
 ], ChatGatewaySala1.prototype, "handleMessage", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('leaveRoom'),
+    __param(0, (0, websockets_1.MessageBody)()),
+    __param(1, (0, websockets_1.ConnectedSocket)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, socket_io_1.Socket]),
+    __metadata("design:returntype", void 0)
+], ChatGatewaySala1.prototype, "leaveRoom", null);
 exports.ChatGatewaySala1 = ChatGatewaySala1 = __decorate([
     (0, websockets_1.WebSocketGateway)(3001, {
         cors: {
