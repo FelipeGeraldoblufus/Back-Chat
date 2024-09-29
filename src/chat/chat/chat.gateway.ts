@@ -17,10 +17,10 @@ import { AuthService } from '../../auth/auth.service';
   },
   transports: ['websocket'],  // Forzar el uso de websockets
 })
-export class ChatGatewaySala1 implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() 
   server: Server;
-  private connectedUsers = new Map<string, string>();
+  public connectedUsers = new Map<string, string>();
 
   constructor(private readonly authService: AuthService) {}
 
@@ -57,7 +57,7 @@ export class ChatGatewaySala1 implements OnGatewayInit, OnGatewayConnection, OnG
     client.join(room);
     const userName = this.connectedUsers.get(client.id);
     console.log(`Usuario ${this.connectedUsers.get(client.id)} se unió a la sala: ${room}`);
-    this.server.to(room).emit('user', { userName, message: `${userName} se ha unido a la sala. `});
+    this.server.to(room).emit('user', { userName, message: `${userName} se ha unido a la sala.`.trim() });
   }
 
   @SubscribeMessage('sendMessage')
@@ -76,7 +76,7 @@ export class ChatGatewaySala1 implements OnGatewayInit, OnGatewayConnection, OnG
     client.leave(room);
     const userName = this.connectedUsers.get(client.id);
     console.log(`Usuario ${userName} salió de la sala: ${room}`);
-    this.server.to(room).emit('user', { userName, message: `${userName} ha salido de la sala. `});
+    this.server.to(room).emit('user', { userName, message: `${userName} ha salido de la sala.`.trim() });
     
   }
 

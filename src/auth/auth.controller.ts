@@ -20,8 +20,6 @@ export class AuthController {
     }
 
 
-
-
     @Post("register")
     register(
         @Body()
